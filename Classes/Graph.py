@@ -43,12 +43,15 @@ class Graph:
     def visualise(self):
         g = nx.DiGraph()
 
+        g.add_nodes_from(range(self.n))
+
         for i in range(self.n):
             for j in range(self.n):
                 if self.adj_matrix[i][j] == 1:
                     g.add_edge(i, j)
 
-        nx.draw(g, with_labels=True, arrows=True)
+        # Draw the graph
+        nx.draw(g, with_labels=True, arrows=True, node_color='lightblue')
         plt.show()
 
     def show_adjacency(self):
