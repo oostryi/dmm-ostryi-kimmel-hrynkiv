@@ -1,7 +1,7 @@
 from Classes.Graph import *
 
 vertices = int(input("\nEnter the number of vertices: "))
-density = float(input("Enter the density: "))
+density = float(input("Enter the density (0.0-1.0): "))
 representation = input("Enter desired representation: ")
 
 graph = Graph(vertices, density, representation)

@@ -17,9 +17,13 @@ class Graph:
     def _generate_dag_adjacency_matrix(self) -> list[list[int]]:
         matrix = [[0] * self.n for _ in range(self.n)]
 
+        order = list(range(self.n))
+        random.shuffle(order)
+        index = {node: i for i, node in enumerate(order)}
+
         for i in range(self.n):
-            for j in range(i + 1, self.n):
-                if random.random() < self.density:
+            for j in range(self.n):
+                if index[i] < index[j] and random.random() < self.density:
                     matrix[i][j] = 1
 
         return matrix
