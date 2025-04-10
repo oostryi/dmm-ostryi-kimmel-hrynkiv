@@ -3,7 +3,7 @@ import matplotlib
 matplotlib.use('TkAgg')
 import networkx as nx
 import matplotlib.pyplot as plt
-
+import time;
 
 class Graph:
 
@@ -163,3 +163,10 @@ class Graph:
         else:
             print("Graph has a cycle! Topological sort not possible.")
             return None
+
+    def execution_time(vertices: int, density: float, representation: str) -> float:
+        start_time = time.time()
+        graph = Graph(vertices, density, representation)
+        graph.topological_sort()
+        end_time = time.time()
+        return end_time - start_time
