@@ -3,7 +3,7 @@ import matplotlib
 matplotlib.use('TkAgg')
 import networkx as nx
 import matplotlib.pyplot as plt
-import time;
+import time
 
 class Graph:
 
@@ -117,8 +117,8 @@ class Graph:
         ax1.axis('off')
         ax2.axis('off')
 
-        plt.tight_layout()
-        plt.show()
+        #plt.tight_layout()
+        #plt.show()
 
     def show_adjacency(self):
         match self.representation:

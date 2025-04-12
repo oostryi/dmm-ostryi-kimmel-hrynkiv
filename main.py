@@ -10,7 +10,7 @@ print(f"\nExpected count of edges: {graph.get_expected_edges()}")
 print(f"\nActual count of edges: {graph.get_actual_edges()}\n")
 sizes = [10, 50, 100, 500, 3000]
 densities = [0.1, 0.3, 0.5, 0.7, 1.0]
-representation = "matrix"
+representation = ""
 
 for size in sizes:
     for density in densities:
