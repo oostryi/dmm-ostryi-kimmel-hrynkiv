@@ -8,9 +8,9 @@ graph = Graph(vertices, density, representation)
 
 print(f"\nExpected count of edges: {graph.get_expected_edges()}")
 print(f"\nActual count of edges: {graph.get_actual_edges()}\n")
-sizes = [10, 50, 100, 500, 3000]
+sizes = [10,30,70,100,150,170,190,200]
 densities = [0.1, 0.3, 0.5, 0.7, 1.0]
-representation = ""
+representation = "matrix"
 
 for size in sizes:
     for density in densities:
@@ -20,9 +20,10 @@ for size in sizes:
 graph.show_adjacency()
 
 
-order = graph.topological_sort()
+order = graph.topological_sort_dfs()
 if order:
     print("Topological Sort:", order)
 
 
 graph.visualise_both()
+

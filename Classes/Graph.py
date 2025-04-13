@@ -59,7 +59,7 @@ class Graph:
             pos = nx.spring_layout(g)
 
         nx.draw(g, pos, with_labels=True, arrows=True, node_color='lightblue', edge_color='grey')
-        plt.title("Topological Sort Visualization" if topo_order else "Graph Visualization")
+        plt.title("Topological Sort using DFS Visualization" if topo_order else "Graph Visualization")
         plt.show()
 
     def visualise_both(self):
@@ -71,7 +71,7 @@ class Graph:
                 if self.adj_matrix[i][j] == 1:
                     g.add_edge(i, j)
 
-        topo_order = self.topological_sort()
+        topo_order = self.topological_sort_dfs()
         if not topo_order:
             print("Graph contains a cycle — topological sort is not possible.")
             return
@@ -109,7 +109,7 @@ class Graph:
         nx.draw_networkx_nodes(g, pos=pos_topo, ax=ax2, node_color='lightgreen', node_size=800)
         nx.draw_networkx_labels(g, pos=pos_topo, ax=ax2, font_size=10)
         nx.draw_networkx_edges(g, pos=pos_topo, ax=ax2, **edge_style_top)
-        ax2.set_title("Topological Sort")
+        ax2.set_title("Topological Sort using DFS")
 
         ax2.set_xlim(-self.n / 2 - 1, self.n / 2 + 1)
         ax2.set_ylim(-2, 2)
@@ -117,8 +117,8 @@ class Graph:
         ax1.axis('off')
         ax2.axis('off')
 
-        #plt.tight_layout()
-        #plt.show()
+        plt.tight_layout()
+        plt.show()
 
     def show_adjacency(self):
         match self.representation:
@@ -140,33 +140,37 @@ class Graph:
                 print("Invalid representation. Must be either matrix or list. Representation set to matrix.")
                 return "matrix"
 
-    def topological_sort(self) -> list[int] | None:
-        in_degree = {i: 0 for i in range(self.n)}
-        for u in self.adj_list:
-            for v in self.adj_list[u]:
-                in_degree[v] += 1
 
-        queue = [u for u in range(self.n) if in_degree[u] == 0]
+
+    def topological_sort_dfs(self) -> list[int] | None:
+        visited = set()
+        temp_mark = set()
         topo_order = []
 
-        while queue:
-            node = queue.pop(0)
-            topo_order.append(node)
+        def dfs(node):
+            if node in temp_mark:
+                return False
+            if node not in visited:
+                temp_mark.add(node)
+                for neighbor in self.adj_list[node]:
+                    if not dfs(neighbor):
+                        return False
+                temp_mark.remove(node)
+                visited.add(node)
+                topo_order.append(node)
+            return True
 
-            for neighbour in self.adj_list[node]:
-                in_degree[neighbour] -= 1
-                if in_degree[neighbour] == 0:
-                    queue.append(neighbour)
+        for v in range(self.n):
+            if v not in visited:
+                if not dfs(v):
+                    print("Graph has a cycle! Topological sort not possible.")
+                    return None
 
-        if len(topo_order) == self.n:
-            return topo_order
-        else:
-            print("Graph has a cycle! Topological sort not possible.")
-            return None
-
+        topo_order.reverse()
+        return topo_order
     def execution_time(vertices: int, density: float, representation: str) -> float:
         start_time = time.time()
         graph = Graph(vertices, density, representation)
-        graph.topological_sort()
+        graph.topological_sort_dfs()
         end_time = time.time()
         return end_time - start_time
